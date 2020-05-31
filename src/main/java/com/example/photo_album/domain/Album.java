@@ -4,31 +4,33 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @JsonIdentityInfo(
         generator = ObjectIdGenerators.PropertyGenerator.class,
         property = "id"
 )
+@ApiModel(description = "Details about Album")
 public class Album {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @JsonView(Views.Id.class)
+    @ApiModelProperty(notes="The unique is of the album")
     private Long id;
     //    @NotBlank(message = "Please fill the album name")
     @JsonView(Views.IdName.class)
-    private String Name;
+    @ApiModelProperty(notes = "The album's name")
+    private String name;
 
     public Album(Long id, String name) {
         this.id = id;
-        Name = name;
+        this.name = name;
     }
 
     @OneToMany(mappedBy = "album", orphanRemoval = true)
@@ -50,11 +52,11 @@ public class Album {
     }
 
     public String getName() {
-        return Name;
+        return name;
     }
 
     public void setName(String name) {
-        Name = name;
+        this.name = name;
     }
 
     public List<Image> getImages() {

@@ -4,6 +4,9 @@ import com.example.photo_album.domain.Album;
 import com.example.photo_album.domain.Views;
 import com.example.photo_album.service.AlbumService;
 import com.fasterxml.jackson.annotation.JsonView;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,6 +19,7 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api")
+@Api(value = "API value", description = "Api description") 
 public class AlbumController {
     private AlbumService albumService;
 
@@ -25,7 +29,9 @@ public class AlbumController {
     }
 
     @PostMapping("/album")
-    public void createAlbum(@Valid @RequestBody Album album) {
+    @ApiOperation(value = "Creates an Album",
+    notes = "The note")
+    public void createAlbum(@ApiParam(value = "All parameters of the new album", required = true) @Valid @RequestBody Album album) {
         albumService.create(album);
     }
 
